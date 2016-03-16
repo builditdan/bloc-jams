@@ -64,10 +64,6 @@ body.landing {
      color: rgb(233,50,117);
  }
 
-a:active {
-  color: rgb(233,50,117);
-  background-color: white;
-}
 
 .container {
   margin: 0 auto;
@@ -151,4 +147,8 @@ a:active {
      color: rgb(233,50,117);
      font-size: 5rem;
  }
+
+.container.narrow
+  max-width: 56rem;
+}
 
