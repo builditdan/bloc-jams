@@ -4,7 +4,8 @@ body.collection {
    background-attachment: fixed;
    background-position: center center;
    background-size: cover;
-   background-color: rgb(58,23,63); 
+   background-color: rgb(58,23,63);
+  
 }
 
 .album-covers {
@@ -33,7 +34,7 @@ body.collection {
 }
 
 .collection-album-container .caption p a.album-name {
-   color: white;
+   color: purple;
 }
 
 .collection-album-container img {
