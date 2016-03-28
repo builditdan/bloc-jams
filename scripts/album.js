@@ -17,6 +17,27 @@ var albumPicasso = {
 };
 
 // Another Example Album
+ var albumJourney = {
+     title: 'Escape',
+     artist: 'Journey',
+     label: 'CBS Records International',
+     year: '1981',
+     albumArtUrl: 'assets/images/album_covers/journey.jpeg',
+     songs: [
+         { title: 'Don\'t Stop Believin', duration: '4:11' },
+         { title: 'Stone in Love', duration: '4:26' },
+         { title: 'Who\'s Crying Now', duration: '5:01'},
+         { title: 'Keep on Runnin', duration: '3:40' },
+         { title: 'Still They Ride', duration: '3:50'},
+         { title: 'Escape', duration: '5:17'},
+         { title: 'Lay It Down', duration: '4:13'},
+         { title: 'Dead or Alive', duration: '3:21'},
+         { title: 'Mother, Father', duration: '5:29'},
+         { title: 'Open Arms', duration: '3:23'}
+     ]
+ };
+
+// Another Example Album
  var albumMarconi = {
      title: 'The Telephone',
      artist: 'Guglielmo Marconi',
@@ -70,6 +91,43 @@ var setCurrentAlbum = function(album) {
 window.onload = function() {
   setCurrentAlbum(albumPicasso);
 };
+
+//var albumImage = document.getElementsByClassName('album-cover-art')[0];
+  //document.images[i].addEventListener("click", MakeMove, false);
+
+// window.addEventListener('scroll', function(event) {
+//         console.log(event);
+//     });
+
+
+document.getElementsByClassName('album-cover-art')[0].addEventListener('click', function(event) {
+
+ //  title: 'The Colors',  title: 'Escape', title: 'The Telephone',
+ 
+//  1 albumPicasso
+//  2 albumJourney
+//  3 albumMarconi
+  
+  
+  var current_album = document.getElementsByClassName('album-view-title')[0].firstChild.nodeValue;
+  switch(current_album){
+  case albumPicasso.title:
+    setCurrentAlbum(albumJourney);
+    break;
+  case albumJourney.title:
+    setCurrentAlbum(albumMarconi);
+    break;
+  case albumMarconi.title:
+    setCurrentAlbum(albumPicasso);
+    break;
+  default:
+   setCurrentAlbum(albumPicasso);
+   break;
+  };
+ 
+  
+});
+
 
 
 
