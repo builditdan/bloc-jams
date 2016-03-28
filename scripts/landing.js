@@ -9,9 +9,10 @@ var animatePoints = function(points) {
     points[index].style.WebkitTransform = "scaleX(1) translateY(0)";
   }
   
-  for (var i = 0; i < points.length; i++) {
-    revealPoint(i);
-  }  
+  forEach(revealPoint);
+  //for (var i = 0; i < points.length; i++) {
+  //  revealPoint(i);
+  //}  
   
 };
 
