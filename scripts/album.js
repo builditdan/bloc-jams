@@ -135,19 +135,22 @@ var songRows = document.getElementsByClassName('album-view-song-item');
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 
+
 window.onload = function() {
   setCurrentAlbum(albumPicasso);
   //Example of event bubbling
   
   songListContainer.addEventListener('mouseover', function(event) {
 
-    var songItem = getSongItem(event.target);
-    var songItemNumber = songItem.getAttribute('data-song-number');
-    if (songItemNumber !== currentlyPlayingSong) {
-      event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+    if (event.target.parentElement.className === 'album-view-song-item') {
+      var songItem = getSongItem(event.target);
+      if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong) {
+        songItem.innerHTML = playButtonTemplate;
+      }
     }
     
-  });
+});
+
   
   
   for (var i = 0; i < songRows.length; i++) {
