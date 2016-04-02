@@ -5,6 +5,7 @@ body.album {
   background-position: center center;
   background-size: cover;
   background-color: rgb(58,23,63); 
+  padding-bottom: 200px;
 }
 
 .album-cover-art {
