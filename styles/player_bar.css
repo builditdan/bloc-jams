@@ -40,10 +40,9 @@
    padding-right: 1rem;
 }
 
-.player-bar .main-controls .previous {
+.player-bar .main-controls .next {
      margin-right: 16.5%;
  }
- 
  .player-bar .main-controls .play-pause {
      margin-right: 15%;
      font-size: 1.6rem;
