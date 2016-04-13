@@ -13,11 +13,12 @@ var currentSongFromAlbum = null;
 var currentAlbum = null;
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $buttonbar_PlayPause= $('.main-controls .play-pause') 
 
 var setSong = function(songNumber) {
   if (currentSoundFile) {
-         currentSoundFile.stop();
-     }
+    currentSoundFile.stop();
+  }
   if (songNumber !== null) {
     var currentlyPlayingSongElement = $("[data-song-number='" + songNumber + "']" );
     //currentSongFromAlbum = currentlyPlayingSongElement.next(".song-item-title").text();
@@ -102,6 +103,33 @@ var updatePlayerBarSong = function() {
   $(".song-name").text(currentSongFromAlbum.title);
   $(".artist-song-mobile").text(currentSongFromAlbum.title);
   $('.main-controls .play-pause').html(playerBarPauseButton);
+  
+}
+
+var togglePlayFromPlayerBar = function() {
+  if (currentSoundFile) {
+    if (!currentSoundFile.isPaused()) {
+      var currentlyPlayingSongElement = $("[data-song-number='" + currentlyPlayingSongNumber + "']" );
+      currentlyPlayingSongElement.html(playButtonTemplate);
+      //setSong(null);
+      currentSoundFile.pause()
+      $('.main-controls .play-pause').html(playerBarPlayButton);
+    } 
+    else {
+      var currentlyPlayingSongElement = $("[data-song-number='" + currentlyPlayingSongNumber + "']" );
+      currentlyPlayingSongElement.html(pauseButtonTemplate);
+      setSong(currentlyPlayingSongNumber);
+      currentSoundFile.play()
+      updatePlayerBarSong();
+    }
+  }
+  else {
+      setSong(1);
+      var currentlyPlayingSongElement = $("[data-song-number='" + currentlyPlayingSongNumber + "']" );  
+      currentlyPlayingSongElement.html(pauseButtonTemplate);
+      currentSoundFile.play();
+      updatePlayerBarSong();
+  }
   
 }
 var createSongRow = function(songNumber, songName, songLength) {
@@ -207,6 +235,7 @@ $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
+  $buttonbar_PlayPause.click(togglePlayFromPlayerBar)
  
 });
 
