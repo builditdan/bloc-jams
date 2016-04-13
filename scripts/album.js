@@ -12,20 +12,6 @@ var currentAlbum = null;
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
 
-
-//var trackIndex = function(album, song) {
-//     return album.songs.indexOf(song);
-// };
-//for (var i = 0; i < album.songs.length; i++) {
-//      var $newRow = createSongRow(i+1,album.songs[i].title, album.songs[i].duration);
-//      $albumSongList.append($newRow)
-//  }
-//};
-//Set a new current song to currentSongFromAlbum.
-//Update the player bar to show the new song.
-//Update the HTML of the previous song's .song-item-number element with a number.
-//Update the HTML of the new song's .song-item-number element with a pause button.
-
 var trackUpdate = function(currentSong, nextSong) {
   
   var currentlyPlayingSongElement = $("[data-song-number='" + currentSong + "']" );
@@ -107,8 +93,8 @@ var createSongRow = function(songNumber, songName, songLength) {
       }
 
       var onHover = function(event) {
-        songItem = parseInt($(this).find(".song-item-number"));
-        songNumber = parseInt($(this).attr("data-song-number"));
+        songItem = $(this).find(".song-item-number");
+        songNumber = parseInt(songItem.attr("data-song-number"));
         if (this.className === 'album-view-song-item') {
         
           if (songNumber !== currentlyPlayingSongNumber) {
@@ -118,9 +104,8 @@ var createSongRow = function(songNumber, songName, songLength) {
         
       };
       var offHover = function(event) {
-         songItem = parseInt($(this).find(".song-item-number"));
-         songNumber = parseInt($(this).attr("data-song-number"));
-        
+         songItem = $(this).find(".song-item-number");
+         songNumber = parseInt(songItem.attr("data-song-number"));
          if (this.className === 'album-view-song-item') {
         
           if (songNumber !== currentlyPlayingSongNumber) {
