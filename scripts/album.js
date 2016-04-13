@@ -82,31 +82,22 @@ var createSongRow = function(songNumber, songName, songLength) {
   
       var clickHandler = function(event) {
         songNumber = parseInt($(this).attr("data-song-number"));
-  
+    
         if (currentlyPlayingSongNumber === null) {
           $(this).html(pauseButtonTemplate);
-//          currentlyPlayingSongNumber = songNumber;
-//          currentSongFromAlbum = $(this).next(".song-item-title").text();
           setSong(songNumber);
-          alert("2current song:" + currentSongFromAlbum);
           updatePlayerBarSong();
         }
         else if (currentlyPlayingSongNumber === songNumber) {
           $(this).html(playButtonTemplate);
-//          currentlyPlayingSongNumber = null;
-//          currentSongFromAlbum = null;
           setSong(null);
-           alert("3current song:" + currentSongFromAlbum);
           $('.main-controls .play-pause').html(playerBarPlayButton);
         }
         else if (currentlyPlayingSongNumber !== songNumber) {
           var currentlyPlayingSongElement = $("[data-song-number='" + currentlyPlayingSongNumber + "']" );
           currentlyPlayingSongElement.text(currentlyPlayingSongNumber);
           $(this).html(pauseButtonTemplate);
-//          currentlyPlayingSongNumber = songNumber;
-//          currentSongFromAlbum = $(this).next(".song-item-title").text();
           setSong(songNumber);
-           alert("4current song:" + currentSongFromAlbum);
           updatePlayerBarSong();
      
         }
@@ -115,7 +106,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
       var onHover = function(event) {
         songItem = $(this).find(".song-item-number");
-        songNumber = parseInt($(this).attr("data-song-number"));
+        songNumber = parseInt(songItem.attr("data-song-number"));
         if (this.className === 'album-view-song-item') {
         
           if (songNumber !== currentlyPlayingSongNumber) {
@@ -127,12 +118,11 @@ var createSongRow = function(songNumber, songName, songLength) {
   
       var offHover = function(event) {
          songItem = $(this).find(".song-item-number");
-         songNumber = parseInt($(this).attr("data-song-number"));
+         songNumber = parseInt(songItem.attr("data-song-number"));
         
          if (this.className === 'album-view-song-item') {
         
           if (songNumber !== currentlyPlayingSongNumber) {
-            alert("remobe");
             songItem.text(songItem.attr("data-song-number"));
           }
          }
