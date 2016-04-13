@@ -24,7 +24,6 @@ var setSong = function(songNumber) {
   }
 }
 
-
 var trackUpdate = function(currentSong, nextSong) {
   
   var currentlyPlayingSongElement = $("[data-song-number='" + currentSong + "']" );
@@ -37,39 +36,32 @@ var trackUpdate = function(currentSong, nextSong) {
   
 }
 
-var nextSong = function () {
+var advanceTrack = function(event) {
+//  alert(Object.keys(event.data.param1));
+//  alert(event.data.param1);
   if (currentlyPlayingSongNumber === null) {
     currentSong = 1;
     nextSong = 1;
-    trackUpdate(currentSong, nextSong)
+    trackUpdate(currentSong, nextSong);
   }
   else {
     currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
-    nextSong = currentSong + 1;
-    if (currentSong === currentAlbum.songs.length) {
-      nextSong = 1;
+    if (event.data.direction === "next") {
+      nextSong = currentSong + 1;
+      if (currentSong === currentAlbum.songs.length) {
+        nextSong = 1;
+      }
+    }
+    else {
+      nextSong = currentSong - 1;
+      if (currentSong === 1) {
+       nextSong = currentAlbum.songs.length;
+      }
     }
     trackUpdate(currentSong, nextSong)
+    
   }
  
-}
-
-var previousSong = function () {
-  
-  if (currentlyPlayingSongNumber === null) {
-    currentSong = 1;
-    nextSong = 1;
-    trackUpdate(currentSong, nextSong)
-  }
-  else {
-    currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
-    nextSong = currentSong - 1;
-    if (currentSong === 1) {
-      nextSong = currentAlbum.songs.length;
-    }
-    trackUpdate(currentSong, nextSong)
-  }
-
 }
 
 
@@ -184,8 +176,10 @@ var trackIndex = function(album, song) {
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
-  $previousButton.click(previousSong);
-  $nextButton.click(nextSong);
+
+  $previousButton.click({direction: "previous"},advanceTrack);
+  $nextButton.click({direction: "next"},advanceTrack);
+
  
 });
 
