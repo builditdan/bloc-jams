@@ -32,33 +32,43 @@ var trackUpdate = function(currentSong, nextSong) {
 
   var currentlyPlayingSongElement = $("[data-song-number='" + nextSong + "']" );
   currentlyPlayingSongElement.html(pauseButtonTemplate);
-
-//  currentlyPlayingSongNumber = nextSong;
-//  currentSongFromAlbum = currentlyPlayingSongElement.next(".song-item-title").text();
   setSong(nextSong);
   updatePlayerBarSong();
   
 }
 
 var nextSong = function () {
-  currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
-  nextSong = currentSong + 1;
-  if (currentSong === currentAlbum.songs.length) {
+  if (currentlyPlayingSongNumber === null) {
+    currentSong = 1;
     nextSong = 1;
+    trackUpdate(currentSong, nextSong)
   }
-  
-  trackUpdate(currentSong, nextSong)
+  else {
+    currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
+    nextSong = currentSong + 1;
+    if (currentSong === currentAlbum.songs.length) {
+      nextSong = 1;
+    }
+    trackUpdate(currentSong, nextSong)
+  }
  
 }
 
 var previousSong = function () {
-  currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
-  nextSong = currentSong - 1;
-  if (currentSong === 1) {
-    nextSong = currentAlbum.songs.length;
+  
+  if (currentlyPlayingSongNumber === null) {
+    currentSong = 1;
+    nextSong = 1;
+    trackUpdate(currentSong, nextSong)
   }
-
-  trackUpdate(currentSong, nextSong)
+  else {
+    currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
+    nextSong = currentSong - 1;
+    if (currentSong === 1) {
+      nextSong = currentAlbum.songs.length;
+    }
+    trackUpdate(currentSong, nextSong)
+  }
 
 }
 
@@ -176,7 +186,7 @@ $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
-  
+ 
 });
 
 
