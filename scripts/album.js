@@ -4,6 +4,8 @@ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var playerBarPlayButton = '<span class="ion-play"></span>';
 var playerBarPauseButton = '<span class="ion-pause"></span>';
+var currentSoundFile = null;
+var currentVolume = 80;
 
 // Store state of playing songs
 var currentlyPlayingSongNumber = null;
@@ -13,17 +15,33 @@ var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
 
 var setSong = function(songNumber) {
+  if (currentSoundFile) {
+         currentSoundFile.stop();
+     }
   if (songNumber !== null) {
     var currentlyPlayingSongElement = $("[data-song-number='" + songNumber + "']" );
-    currentSongFromAlbum = currentlyPlayingSongElement.next(".song-item-title").text();
+    //currentSongFromAlbum = currentlyPlayingSongElement.next(".song-item-title").text();
+    currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
     currentlyPlayingSongNumber = songNumber;
+    currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
+      formats: [ 'mp3' ],
+      preload: true
+    });
+    setVolume(currentVolume);
   }
   else {
     currentlyPlayingSongNumber = null;
     currentSongFromAlbum = null;
   }
-}
+  
+   
+};
 
+var setVolume = function(volume) {
+     if (currentSoundFile) {
+         currentSoundFile.setVolume(volume);
+     }
+ };
 
 var trackUpdate = function(currentSong, nextSong) {
   
@@ -42,14 +60,18 @@ var nextSong = function () {
     currentSong = 1;
     nextSong = 1;
     trackUpdate(currentSong, nextSong)
+    currentSoundFile.play()
   }
   else {
+    currentSoundFile.pause()
     currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
     nextSong = currentSong + 1;
     if (currentSong === currentAlbum.songs.length) {
       nextSong = 1;
     }
     trackUpdate(currentSong, nextSong)
+    currentSoundFile.play()
+
   }
  
 }
@@ -62,20 +84,23 @@ var previousSong = function () {
     trackUpdate(currentSong, nextSong)
   }
   else {
+    currentSoundFile.pause()
     currentSong = trackIndex(currentAlbum, currentSongFromAlbum);
     nextSong = currentSong - 1;
     if (currentSong === 1) {
       nextSong = currentAlbum.songs.length;
     }
     trackUpdate(currentSong, nextSong)
+    currentSoundFile.play()
+
   }
 
 }
 
 
 var updatePlayerBarSong = function() {
-  $(".song-name").text(currentSongFromAlbum);
-  $(".artist-song-mobile").text(currentSongFromAlbum);
+  $(".song-name").text(currentSongFromAlbum.title);
+  $(".artist-song-mobile").text(currentSongFromAlbum.title);
   $('.main-controls .play-pause').html(playerBarPauseButton);
   
 }
@@ -92,22 +117,26 @@ var createSongRow = function(songNumber, songName, songLength) {
   
       var clickHandler = function(event) {
         songNumber = parseInt($(this).attr("data-song-number"));
-    
         if (currentlyPlayingSongNumber === null) {
           $(this).html(pauseButtonTemplate);
           setSong(songNumber);
+          currentSoundFile.play()
           updatePlayerBarSong();
         }
         else if (currentlyPlayingSongNumber === songNumber) {
           $(this).html(playButtonTemplate);
+          currentSoundFile.isPaused
           setSong(null);
+          currentSoundFile.pause()
           $('.main-controls .play-pause').html(playerBarPlayButton);
         }
         else if (currentlyPlayingSongNumber !== songNumber) {
           var currentlyPlayingSongElement = $("[data-song-number='" + currentlyPlayingSongNumber + "']" );
           currentlyPlayingSongElement.text(currentlyPlayingSongNumber);
           $(this).html(pauseButtonTemplate);
+          //currentSoundFile.stop()
           setSong(songNumber);
+          currentSoundFile.play()
           updatePlayerBarSong();
      
         }
@@ -171,16 +200,8 @@ var setCurrentAlbum = function(album) {
 };
 
 var trackIndex = function(album, song) {
-     //return album.songs.indexOf(song);
-  for (var i = 0; i < album.songs.length; i++) {
-    if (album.songs[i].title === song) {
-      currentIndex = i;
-    }
-  }
-  
-  return (currentIndex + 1)
-
- };
+     return (album.songs.indexOf(song) + 1);
+};
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
